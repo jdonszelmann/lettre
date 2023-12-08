@@ -19,7 +19,7 @@ is-it-maintained-open-issues = { repository = "lettre/lettre" }
 maintenance = { status = "actively-developed" }
 
 [dependencies]
-chumsky = "0.9"
+chumsky = {version="0.9", default-features=false, features=["ahash", "std"]}
 idna = "0.5"
 once_cell = { version = "1", optional = true }
 tracing = { version = "0.1.16", default-features = false, features = ["std"], optional = true } # feature
@@ -96,9 +96,12 @@ harness = false
 name = "mailbox_parsing"
 
 [features]
-default = ["smtp-transport", "pool", "native-tls", "hostname", "builder"]
+default = ["smtp-transport", "pool", "native-tls", "hostname", "builder", "spill"]
 builder = ["dep:httpdate", "dep:mime", "dep:fastrand", "dep:quoted_printable", "dep:email-encoding"]
 mime03 = ["dep:mime"]
+
+# chumsky (stack spilling)
+spill = ["chumsky/spill-stack"]
 
 # transports
 file-transport = ["dep:uuid", "tokio1_crate?/fs", "tokio1_crate?/io-util"]
